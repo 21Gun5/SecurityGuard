@@ -32,10 +32,8 @@ void CProcessDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CProcessDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_NOTIFY(NM_RCLICK, IDC_LIST1, &CProcessDlg::OnRclickList1)
-//	ON_COMMAND(ID_32771, &CProcessDlg::OnMenuKillproc)
-//	ON_COMMAND(ID_32772, &CProcessDlg::OnMenuListmodule)
-ON_COMMAND(ID_32771, &CProcessDlg::OnMenuKillproc)
-ON_COMMAND(ID_32772, &CProcessDlg::OnMenuListmodule)
+	ON_COMMAND(ID_32771, &CProcessDlg::OnMenuKillproc)
+	ON_COMMAND(ID_32772, &CProcessDlg::OnMenuListmodule)
 END_MESSAGE_MAP()
 
 

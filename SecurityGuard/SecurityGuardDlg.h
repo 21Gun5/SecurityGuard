@@ -33,7 +33,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 //	CTabCtrl m_tab;
-	afx_msg void OnBnClickedButton3();
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton2();
+	afx_msg void OnBnClickedButtonClean();
+	afx_msg void OnBnClickedButtonProcess();
+	afx_msg void OnBnClickedButtonWindow();
+	afx_msg void OnBnClickedButtonPE();
 };

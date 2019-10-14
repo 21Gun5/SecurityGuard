@@ -10,22 +10,53 @@
 #define IDR_MAINFRAME                   128
 #define IDD_CProcessDlg                 130
 #define IDR_MENU1                       134
-#define IDD_DIALOG1                     135
 #define IDD_CModuleDlg                  135
+#define IDD_CPeInfoDlg                  137
+#define IDD_CSectionDlg                 139
+#define IDD_CDatadirDlg                 141
+#define IDR_MENU2                       143
+#define IDD_CDDExportDlg                144
+#define IDD_CDDImportDlg                146
+#define IDD_CDDResDlg                   148
+#define IDD_CDDRelocDlg                 150
+#define IDD_CDDTLSDlg                   152
+#define IDD_CDDDelayLoadDlg             154
 #define IDC_LIST1                       1002
-#define IDC_BUTTON1                     1003
-#define IDC_BUTTON2                     1004
-#define IDC_BUTTON3                     1005
+#define IDC_BUTTON_PROCESS              1003
+#define IDC_BUTTON_WINDOW               1004
+#define IDC_BUTTON_CLEAN                1005
+#define IDC_BUTTON_PE                   1009
+#define IDC_EDIT1                       1010
+#define IDC_BUTTON5                     1011
+#define IDC_EDIT2                       1012
+#define IDC_EDIT3                       1013
+#define IDC_EDIT4                       1014
+#define IDC_EDIT5                       1015
+#define IDC_EDIT6                       1016
+#define IDC_EDIT7                       1017
+#define IDC_EDIT8                       1018
+#define IDC_EDIT9                       1019
+#define IDC_EDIT10                      1020
+#define IDC_EDIT11                      1021
+#define IDC_BUTTON_SAVE                 1022
+#define IDC_BUTTON_CHOOSE               1023
+#define IDC_BUTTON_ANALISY              1024
+#define IDC_BUTTON_ANALYSE              1024
+#define IDC_BUTTON_DIRINFO              1025
+#define IDC_BUTTON_SECINFO              1028
+#define IDC_LIST_DLL                    1030
+#define IDC_LIST_FUNC                   1031
 #define ID_32771                        32771
 #define ID_32772                        32772
+#define ID_32773                        32773
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        137
-#define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1009
+#define _APS_NEXT_RESOURCE_VALUE        156
+#define _APS_NEXT_COMMAND_VALUE         32774
+#define _APS_NEXT_CONTROL_VALUE         1032
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

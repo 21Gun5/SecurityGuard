@@ -183,8 +183,18 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDataDirDlg.h" />
+    <ClInclude Include="CDDDelayLoadDlg.h" />
+    <ClInclude Include="CDDExportDlg.h" />
+    <ClInclude Include="CDDImportDlg.h" />
+    <ClInclude Include="CDDRelocDlg.h" />
+    <ClInclude Include="CDDResDlg.h" />
+    <ClInclude Include="CDDTLSDlg.h" />
     <ClInclude Include="CModuleDlg.h" />
+    <ClInclude Include="CPe.h" />
+    <ClInclude Include="CPeInfoDlg.h" />
     <ClInclude Include="CProcessDlg.h" />
+    <ClInclude Include="CSectionDlg.h" />
     <ClInclude Include="CTools.h" />
     <ClInclude Include="CWindowDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -194,8 +204,18 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDataDirDlg.cpp" />
+    <ClCompile Include="CDDDelayLoadDlg.cpp" />
+    <ClCompile Include="CDDExportDlg.cpp" />
+    <ClCompile Include="CDDImportDlg.cpp" />
+    <ClCompile Include="CDDRelocDlg.cpp" />
+    <ClCompile Include="CDDResDlg.cpp" />
+    <ClCompile Include="CDDTLSDlg.cpp" />
     <ClCompile Include="CModuleDlg.cpp" />
+    <ClCompile Include="CPe.cpp" />
+    <ClCompile Include="CPeInfoDlg.cpp" />
     <ClCompile Include="CProcessDlg.cpp" />
+    <ClCompile Include="CSectionDlg.cpp" />
     <ClCompile Include="CTools.cpp" />
     <ClCompile Include="CWindowDlg.cpp" />
     <ClCompile Include="SecurityGuard.cpp" />

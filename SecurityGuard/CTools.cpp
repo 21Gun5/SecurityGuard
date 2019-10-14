@@ -4,12 +4,13 @@
 #include <Psapi.h>
 
 
+
 // 获取所有运行进程
 void GetAllRunningProcess(std::vector<PROCESSINFO>* processList)
 {
 	// TODO: 在此处添加实现代码.
 
-		// 获取进程快照句柄
+	// 获取进程快照句柄
 	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
 	// 保存进程信息的变量
 	PROCESSENTRY32 proc32 = { sizeof(PROCESSENTRY32) };

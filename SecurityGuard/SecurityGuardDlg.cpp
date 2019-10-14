@@ -8,6 +8,7 @@
 #include "afxdialogex.h"
 #include "CProcessDlg.h"
 #include "CWindowDlg.h"
+#include "CPeInfoDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -67,9 +68,10 @@ BEGIN_MESSAGE_MAP(CSecurityGuardDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BUTTON3, &CSecurityGuardDlg::OnBnClickedButton3)
-	ON_BN_CLICKED(IDC_BUTTON1, &CSecurityGuardDlg::OnBnClickedButton1)
-	ON_BN_CLICKED(IDC_BUTTON2, &CSecurityGuardDlg::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON_CLEAN, &CSecurityGuardDlg::OnBnClickedButtonClean)
+	ON_BN_CLICKED(IDC_BUTTON_PROCESS, &CSecurityGuardDlg::OnBnClickedButtonProcess)
+	ON_BN_CLICKED(IDC_BUTTON_WINDOW, &CSecurityGuardDlg::OnBnClickedButtonWindow)
+	ON_BN_CLICKED(IDC_BUTTON_PE , &CSecurityGuardDlg::OnBnClickedButtonPE)
 END_MESSAGE_MAP()
 
 
@@ -159,7 +161,7 @@ HCURSOR CSecurityGuardDlg::OnQueryDragIcon()
 }
 
 
-void CSecurityGuardDlg::OnBnClickedButton1()
+void CSecurityGuardDlg::OnBnClickedButtonProcess()
 {
 	// TODO: 在此添加控件通知处理程序代码
 
@@ -170,7 +172,7 @@ void CSecurityGuardDlg::OnBnClickedButton1()
 }
 
 
-void CSecurityGuardDlg::OnBnClickedButton2()
+void CSecurityGuardDlg::OnBnClickedButtonWindow()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CWindowDlg dlg;
@@ -178,7 +180,14 @@ void CSecurityGuardDlg::OnBnClickedButton2()
 }
 
 
-void CSecurityGuardDlg::OnBnClickedButton3()
+void CSecurityGuardDlg::OnBnClickedButtonClean()
 {
 	// TODO: 在此添加控件通知处理程序代码
+}
+
+void CSecurityGuardDlg::OnBnClickedButtonPE()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CPeInfoDlg dlg;
+	dlg.DoModal();
 }
