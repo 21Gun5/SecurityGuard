@@ -24,6 +24,7 @@
 #define IDC_LIST1                       1002
 #define IDC_BUTTON_PROCESS              1003
 #define IDC_LIST_SECTION                1003
+#define IDC_LIST_TYPE                   1003
 #define IDC_BUTTON_WINDOW               1004
 #define IDC_BUTTON_CLEAN                1005
 #define IDC_BUTTON_PE                   1009
@@ -50,7 +51,12 @@
 #define IDC_LIST_DLL                    1030
 #define IDC_LIST_FUNC                   1031
 #define IDC_LIST_BLOCK                  1032
-#define IDC_TREE1                       1033
+#define IDC_EDIT_Size                   1034
+#define IDC_EDIT_RVA                    1035
+#define IDC_EDIT_Size2                  1036
+#define IDC_EDIT_Size3                  1037
+#define IDC_EDIT_Size4                  1038
+#define IDC_LIST_RES                    1039
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -59,9 +65,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        156
+#define _APS_NEXT_RESOURCE_VALUE        158
 #define _APS_NEXT_COMMAND_VALUE         32774
-#define _APS_NEXT_CONTROL_VALUE         1034
+#define _APS_NEXT_CONTROL_VALUE         1040
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

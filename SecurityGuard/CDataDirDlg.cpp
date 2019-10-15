@@ -141,6 +141,7 @@ void CDataDirDlg::OnMenuDetailInfo()
 	case 2:
 	{
 		CDDResDlg dlg;
+		//CDDResorcDlg dlg;
 		dlg.DoModal();
 		break;
 	}
