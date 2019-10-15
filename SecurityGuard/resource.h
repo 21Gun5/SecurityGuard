@@ -23,6 +23,7 @@
 #define IDD_CDDDelayLoadDlg             154
 #define IDC_LIST1                       1002
 #define IDC_BUTTON_PROCESS              1003
+#define IDC_LIST_SECTION                1003
 #define IDC_BUTTON_WINDOW               1004
 #define IDC_BUTTON_CLEAN                1005
 #define IDC_BUTTON_PE                   1009
@@ -48,6 +49,8 @@
 #define IDC_BUTTON_SECINFO              1028
 #define IDC_LIST_DLL                    1030
 #define IDC_LIST_FUNC                   1031
+#define IDC_LIST_BLOCK                  1032
+#define IDC_TREE1                       1033
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -58,7 +61,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        156
 #define _APS_NEXT_COMMAND_VALUE         32774
-#define _APS_NEXT_CONTROL_VALUE         1032
+#define _APS_NEXT_CONTROL_VALUE         1034
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

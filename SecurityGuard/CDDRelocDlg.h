@@ -20,4 +20,9 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+	CListCtrl m_listSection;
+	CListCtrl m_listBlock;
+	afx_msg void OnClickListSection(NMHDR *pNMHDR, LRESULT *pResult);
+	virtual BOOL OnInitDialog();
 };

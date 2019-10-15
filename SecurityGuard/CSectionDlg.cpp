@@ -64,7 +64,9 @@ BOOL CSectionDlg::OnInitDialog()
 		CString  buffer;
 		m_list.InsertItem(index, _T(""));// 插入行
 
-		buffer.Format(_T("%S"), pSection[i].Name);
+		char tempame[9] = {0};
+		memcpy(tempame, pSection[i].Name, 8);
+		buffer.Format(_T("%S"), tempame);
 		m_list.SetItemText(index, 0, buffer);
 		buffer.Format(_T("%08X"), pSection[i].VirtualAddress);
 		m_list.SetItemText(index, 1, buffer);

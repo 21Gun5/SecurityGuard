@@ -55,10 +55,12 @@ BOOL CDDImportDlg::OnInitDialog()
 	m_listFunc.InsertColumn(0, L"DllName", 0, 250);
 	m_listFunc.InsertColumn(1, L"序号", 0, 250);
 	m_listFunc.InsertColumn(2, L"函数名", 0, 250);
+
+
 	// 获取pe信息
 	CPe pe;
-	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
 	bool isPe = pe.InitPe(PE_PATH);
+
 	PIMAGE_IMPORT_DESCRIPTOR pImport = pe.GetImportDirectory();
 	// 循环设置dll列表
 	int index = 0;
@@ -88,20 +90,16 @@ void CDDImportDlg::OnClickListDll(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 在此添加控件通知处理程序代码
 	*pResult = 0;
 
-	//
+	
 	m_listFunc.DeleteAllItems();
-
 	int i = (int)m_listDll.GetFirstSelectedItemPosition() - 1;
 	CString curDllName = m_listDll.GetItemText(i, 0);
-	//DWORD curFirstThunk = _ttoi(m_listDll.GetItemText(index, 1));
 
 	CPe pe;
-	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
 	bool isPe = pe.InitPe(PE_PATH);
-	//bool isPe = pe.InitPe((TCHAR*)L"02calldll.exe"); 
 	PIMAGE_IMPORT_DESCRIPTOR pImport = pe.GetImportDirectory() + i;
 	// 获取IAT
-	PIMAGE_THUNK_DATA pIAT = (PIMAGE_THUNK_DATA)(pe.RvaToFoa(pImport->OriginalFirstThunk) + (DWORD)g_PeBuff);
+	PIMAGE_THUNK_DATA pIAT = (PIMAGE_THUNK_DATA)(pe.RvaToFoa(pImport->FirstThunk) + (DWORD)g_PeBuff);
 	
 	// 遍历IAT中函数
 	int index = 0;
