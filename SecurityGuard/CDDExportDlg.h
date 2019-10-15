@@ -13,7 +13,7 @@ public:
 
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_CExportDlg };
+	enum { IDD = IDD_CDDExportDlg };
 #endif
 
 protected:
@@ -22,4 +22,13 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
+	CString m_editName;
+	CString m_editBase;
+	CString m_editFuncNum;
+	CString m_editNameNum;
+	CString m_editNameAddr;
+	CString m_editEAT;
+	CString m_editENT;
+	CString m_editEOT;
+	CListCtrl m_list;
 };

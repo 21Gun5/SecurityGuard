@@ -53,7 +53,8 @@ BOOL CSectionDlg::OnInitDialog()
 	m_list.InsertColumn(5, L"标记", 0, 150);
 	// 获取pe信息
 	CPe pe;
-	bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	bool isPe = pe.InitPe(PE_PATH);
 	PIMAGE_NT_HEADERS pNt = pe.GetNtHeader();
 	PIMAGE_SECTION_HEADER pSection = IMAGE_FIRST_SECTION(pNt);
 	int index = 0;

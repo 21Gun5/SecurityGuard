@@ -3,6 +3,7 @@
 #include "CTools.h"
 
 extern char * g_PeBuff;
+#define PE_PATH (TCHAR*)L"01Dlltest.dll"
 
 class CPe
 {

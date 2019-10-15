@@ -57,7 +57,8 @@ BOOL CDDImportDlg::OnInitDialog()
 	m_listFunc.InsertColumn(2, L"函数名", 0, 250);
 	// 获取pe信息
 	CPe pe;
-	bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	bool isPe = pe.InitPe(PE_PATH);
 	PIMAGE_IMPORT_DESCRIPTOR pImport = pe.GetImportDirectory();
 	// 循环设置dll列表
 	int index = 0;
@@ -95,10 +96,13 @@ void CDDImportDlg::OnClickListDll(NMHDR *pNMHDR, LRESULT *pResult)
 	//DWORD curFirstThunk = _ttoi(m_listDll.GetItemText(index, 1));
 
 	CPe pe;
-	bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
-	PIMAGE_IMPORT_DESCRIPTOR pImport = pe.GetImportDirectory();
+	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	bool isPe = pe.InitPe(PE_PATH);
+	//bool isPe = pe.InitPe((TCHAR*)L"02calldll.exe"); 
+	PIMAGE_IMPORT_DESCRIPTOR pImport = pe.GetImportDirectory() + i;
 	// 获取IAT
-	PIMAGE_THUNK_DATA pIAT = (PIMAGE_THUNK_DATA)(pe.RvaToFoa(pImport->FirstThunk) + (DWORD)g_PeBuff);
+	PIMAGE_THUNK_DATA pIAT = (PIMAGE_THUNK_DATA)(pe.RvaToFoa(pImport->OriginalFirstThunk) + (DWORD)g_PeBuff);
+	
 	// 遍历IAT中函数
 	int index = 0;
 	while (pIAT->u1.Ordinal)
@@ -108,12 +112,12 @@ void CDDImportDlg::OnClickListDll(NMHDR *pNMHDR, LRESULT *pResult)
 		// 设置单元格内容
 		m_listFunc.SetItemText(index, 0, curDllName);
 		// 判断最高位是否位1 ，如果为1那么需要导入
-		if (pIAT->u1.Ordinal & 0x80000000)
+		if (IMAGE_SNAP_BY_ORDINAL(pIAT->u1.Ordinal))
 		{
-			buffer.Format(_T("%08X"), pIAT->u1.Function & 0x7FFFFFFF);
+			buffer.Format(_T("%08X"), pIAT->u1.Ordinal & 0x0000FFFF);
 			m_listFunc.SetItemText(index, 1, buffer);
-			m_listFunc.SetItemText(index, 2, L"没有名字");
-
+			//m_listFunc.SetItemText(index, 2, buffer);
+			//m_listFunc.SetItemText(index, 2, L"没有名字");
 		}
 		else 
 		{

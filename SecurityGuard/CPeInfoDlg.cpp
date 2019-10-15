@@ -103,7 +103,8 @@ void CPeInfoDlg::OnBnClickedButtonAnalyse()
 	// TODO: 在此添加控件通知处理程序代码
 	CPe pe;
 	// 加载文件
-	bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	bool isPe = pe.InitPe(PE_PATH);
+	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
 	//检测是否是PE文件
 	if (!isPe)
 	{

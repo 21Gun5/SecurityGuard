@@ -58,7 +58,9 @@ BOOL CDataDirDlg::OnInitDialog()
 	m_list.InsertColumn(2, L"Size", 0, 250);
 	// 获取pe信息
 	CPe pe;
-	bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	bool isPe = pe.InitPe(PE_PATH);
+	
 	PIMAGE_NT_HEADERS pNt = pe.GetNtHeader();
 	int index = 0;
 	// 各种表的名称

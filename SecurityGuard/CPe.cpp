@@ -64,6 +64,10 @@ bool CPe::IsPeFile(char * pbuff)
 PIMAGE_DOS_HEADER CPe::GetDosHeader()
 {
 	return (PIMAGE_DOS_HEADER)m_buff;
+	//if(isLoad)
+	//	return (PIMAGE_DOS_HEADER)g_PeBuff;
+	//else
+	//	return (PIMAGE_DOS_HEADER)m_buff;
 }
 
 // ªÒ»°NTÕ∑
