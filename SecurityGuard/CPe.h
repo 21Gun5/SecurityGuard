@@ -3,8 +3,10 @@
 #include "CTools.h"
 
 extern char * g_PeBuff;
-#define PE_PATH (TCHAR*)L"03FileCleaner.exe"
-
+//#define PE_PATH (TCHAR*)L"03FileCleaner.exe"
+//#define PE_PATH (TCHAR*)L"04延迟加载.exe"
+//#define PE_PATH (TCHAR*)L"03TLS.exe"
+#define PE_PATH (TCHAR*)L".//res//ForTestPE//01PE文件.exe"
 
 class CPe
 {
@@ -20,6 +22,9 @@ public:
 	PIMAGE_IMPORT_DESCRIPTOR GetImportDirectory();
 	PIMAGE_RESOURCE_DIRECTORY GetResourceDirectory();// 获取资源表
 	PIMAGE_BASE_RELOCATION GetRelocalDirectory();// 获取重定位表
+
+	PIMAGE_DELAYLOAD_DESCRIPTOR GetDelayLoadDirectory();// 获取延迟加载
+	PIMAGE_TLS_DIRECTORY32 GetTLSDirectory();
 
 	void ShowOptionHeader();// 显示扩展头信息
 	void ShowSectionInfo();// 显示区段表信息

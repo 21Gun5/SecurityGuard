@@ -137,8 +137,6 @@ PIMAGE_RESOURCE_DIRECTORY CPe::GetResourceDirectory()
 	PIMAGE_RESOURCE_DIRECTORY pRes =(PIMAGE_RESOURCE_DIRECTORY)(dwOffset + m_buff);
 	return pRes;
 }
-
-
 PIMAGE_BASE_RELOCATION CPe::GetRelocalDirectory()
 {
 	// 获取数据目录表第 5项
@@ -149,6 +147,23 @@ PIMAGE_BASE_RELOCATION CPe::GetRelocalDirectory()
 		(PIMAGE_BASE_RELOCATION)(RvaToFoa(dwRva) + m_buff);
 
 	return pRelocal;
+}
+
+PIMAGE_DELAYLOAD_DESCRIPTOR CPe::GetDelayLoadDirectory()
+{
+	PIMAGE_NT_HEADERS pNt = GetNtHeader();
+	DWORD dwRva = pNt->OptionalHeader.DataDirectory[13].VirtualAddress;
+	DWORD dwOffset = RvaToFoa(dwRva);
+	PIMAGE_DELAYLOAD_DESCRIPTOR pDelayLoad = (PIMAGE_DELAYLOAD_DESCRIPTOR)(dwOffset + (DWORD)m_buff);
+	return pDelayLoad;
+}
+PIMAGE_TLS_DIRECTORY32 CPe::GetTLSDirectory()
+{
+	PIMAGE_NT_HEADERS pNt = GetNtHeader();
+	DWORD dwRva = pNt->OptionalHeader.DataDirectory[9].VirtualAddress;
+	DWORD dwOffset = RvaToFoa(dwRva);
+	PIMAGE_TLS_DIRECTORY32 pTLS = (PIMAGE_TLS_DIRECTORY32)(dwOffset + (DWORD)m_buff);
+	return pTLS;
 }
 
 void CPe::ShowImportInfo()
