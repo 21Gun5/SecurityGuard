@@ -39,4 +39,5 @@ public:
 	afx_msg void OnBnClickedButtonPE();
 //	afx_msg void OnBnClickedButtonThread();
 	afx_msg void OnBnClickedButtonAntivirus();
+	afx_msg void OnBnClickedButtonService();
 };

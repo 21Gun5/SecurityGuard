@@ -7,7 +7,6 @@
 #include "afxdialogex.h"
 #include "CPe.h"
 
-
 const WCHAR* RES1[20] = {
 	L"光标",
 	L"位图",

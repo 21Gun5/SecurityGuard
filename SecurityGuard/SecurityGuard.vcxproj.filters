@@ -84,6 +84,9 @@
     <ClInclude Include="CCleanerDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CServiceDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SecurityGuard.cpp">
@@ -147,6 +150,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CCleanerDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CServiceDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

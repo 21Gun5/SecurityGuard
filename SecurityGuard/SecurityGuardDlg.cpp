@@ -12,6 +12,9 @@
 #include "CThreadDlg.h"
 #include "CAntiVirusDlg.h"
 #include "CCleanerDlg.h"
+#include "CServiceDlg.h"
+
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -25,12 +28,12 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 // 实现
@@ -74,9 +77,10 @@ BEGIN_MESSAGE_MAP(CSecurityGuardDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_CLEAN, &CSecurityGuardDlg::OnBnClickedButtonClean)
 	ON_BN_CLICKED(IDC_BUTTON_PROCESS, &CSecurityGuardDlg::OnBnClickedButtonProcess)
 	ON_BN_CLICKED(IDC_BUTTON_WINDOW, &CSecurityGuardDlg::OnBnClickedButtonWindow)
-	ON_BN_CLICKED(IDC_BUTTON_PE , &CSecurityGuardDlg::OnBnClickedButtonPE)
-//	ON_BN_CLICKED(IDC_BUTTON_THREAD, &CSecurityGuardDlg::OnBnClickedButtonThread)
-ON_BN_CLICKED(IDC_BUTTON_ANTIVIRUS, &CSecurityGuardDlg::OnBnClickedButtonAntivirus)
+	ON_BN_CLICKED(IDC_BUTTON_PE, &CSecurityGuardDlg::OnBnClickedButtonPE)
+	//	ON_BN_CLICKED(IDC_BUTTON_THREAD, &CSecurityGuardDlg::OnBnClickedButtonThread)
+	ON_BN_CLICKED(IDC_BUTTON_ANTIVIRUS, &CSecurityGuardDlg::OnBnClickedButtonAntivirus)
+	ON_BN_CLICKED(IDC_BUTTON_SERVICE, &CSecurityGuardDlg::OnBnClickedButtonService)
 END_MESSAGE_MAP()
 
 
@@ -200,18 +204,19 @@ void CSecurityGuardDlg::OnBnClickedButtonPE()
 }
 
 
-//void CSecurityGuardDlg::OnBnClickedButtonThread()
-//{
-//	// TODO: 在此添加控件通知处理程序代码
-//	CThreadDlg dlg;
-//	dlg.DoModal();
-//
-//}
-
 
 void CSecurityGuardDlg::OnBnClickedButtonAntivirus()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CAntiVirusDlg dlg;
+	dlg.DoModal();
+}
+
+
+void CSecurityGuardDlg::OnBnClickedButtonService()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	CServiceDlg dlg;
 	dlg.DoModal();
 }

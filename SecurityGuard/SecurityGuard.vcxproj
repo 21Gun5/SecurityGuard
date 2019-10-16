@@ -197,6 +197,7 @@
     <ClInclude Include="CPeInfoDlg.h" />
     <ClInclude Include="CProcessDlg.h" />
     <ClInclude Include="CSectionDlg.h" />
+    <ClInclude Include="CServiceDlg.h" />
     <ClInclude Include="CThreadDlg.h" />
     <ClInclude Include="CTools.h" />
     <ClInclude Include="CWindowDlg.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="CPeInfoDlg.cpp" />
     <ClCompile Include="CProcessDlg.cpp" />
     <ClCompile Include="CSectionDlg.cpp" />
+    <ClCompile Include="CServiceDlg.cpp" />
     <ClCompile Include="CThreadDlg.cpp" />
     <ClCompile Include="CTools.cpp" />
     <ClCompile Include="CWindowDlg.cpp" />

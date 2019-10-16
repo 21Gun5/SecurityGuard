@@ -191,6 +191,12 @@ void CCleanerDlg::OnFileDeleteall()
 
 			CString path = m_list.GetItemText(i, 0);
 			OutputDebugString(L"删除文件: " + path);
+			// 从磁盘上删除文件
+			if (DeleteFile(path)) {
+				m_list.DeleteItem(i);
+				continue;
+			}
+
 			m_list.DeleteItem(i);
 			continue;
 		}
@@ -209,5 +215,10 @@ void CCleanerDlg::OnFileDeleteone()
 	int nPos = (int)pos - 1;
 	CString path = m_list.GetItemText(nPos, 0);
 	OutputDebugString(L"删除文件: " + path);
+	// 从磁盘上删除文件
+	if (DeleteFile(path))
+	{
+		m_list.DeleteItem(nPos);
+	}
 	m_list.DeleteItem(nPos);
 }
