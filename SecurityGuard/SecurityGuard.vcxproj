@@ -183,6 +183,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAntiVirusDlg.h" />
+    <ClInclude Include="CCleanerDlg.h" />
     <ClInclude Include="CDataDirDlg.h" />
     <ClInclude Include="CDDDelayLoadDlg.h" />
     <ClInclude Include="CDDExportDlg.h" />
@@ -198,6 +200,7 @@
     <ClInclude Include="CThreadDlg.h" />
     <ClInclude Include="CTools.h" />
     <ClInclude Include="CWindowDlg.h" />
+    <ClInclude Include="MD5.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SecurityGuard.h" />
     <ClInclude Include="SecurityGuardDlg.h" />
@@ -205,6 +208,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAntiVirusDlg.cpp" />
+    <ClCompile Include="CCleanerDlg.cpp" />
     <ClCompile Include="CDataDirDlg.cpp" />
     <ClCompile Include="CDDDelayLoadDlg.cpp" />
     <ClCompile Include="CDDExportDlg.cpp" />
@@ -220,6 +225,7 @@
     <ClCompile Include="CThreadDlg.cpp" />
     <ClCompile Include="CTools.cpp" />
     <ClCompile Include="CWindowDlg.cpp" />
+    <ClCompile Include="MD5.cpp" />
     <ClCompile Include="SecurityGuard.cpp" />
     <ClCompile Include="SecurityGuardDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

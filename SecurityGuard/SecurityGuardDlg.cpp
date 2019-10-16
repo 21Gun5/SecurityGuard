@@ -10,6 +10,8 @@
 #include "CWindowDlg.h"
 #include "CPeInfoDlg.h"
 #include "CThreadDlg.h"
+#include "CAntiVirusDlg.h"
+#include "CCleanerDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -74,6 +76,7 @@ BEGIN_MESSAGE_MAP(CSecurityGuardDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_WINDOW, &CSecurityGuardDlg::OnBnClickedButtonWindow)
 	ON_BN_CLICKED(IDC_BUTTON_PE , &CSecurityGuardDlg::OnBnClickedButtonPE)
 //	ON_BN_CLICKED(IDC_BUTTON_THREAD, &CSecurityGuardDlg::OnBnClickedButtonThread)
+ON_BN_CLICKED(IDC_BUTTON_ANTIVIRUS, &CSecurityGuardDlg::OnBnClickedButtonAntivirus)
 END_MESSAGE_MAP()
 
 
@@ -185,6 +188,8 @@ void CSecurityGuardDlg::OnBnClickedButtonWindow()
 void CSecurityGuardDlg::OnBnClickedButtonClean()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	CCleanerDlg dlg;
+	dlg.DoModal();
 }
 
 void CSecurityGuardDlg::OnBnClickedButtonPE()
@@ -202,3 +207,11 @@ void CSecurityGuardDlg::OnBnClickedButtonPE()
 //	dlg.DoModal();
 //
 //}
+
+
+void CSecurityGuardDlg::OnBnClickedButtonAntivirus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CAntiVirusDlg dlg;
+	dlg.DoModal();
+}
