@@ -9,6 +9,7 @@
 #include "CProcessDlg.h"
 #include "CWindowDlg.h"
 #include "CPeInfoDlg.h"
+#include "CThreadDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -72,6 +73,7 @@ BEGIN_MESSAGE_MAP(CSecurityGuardDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_PROCESS, &CSecurityGuardDlg::OnBnClickedButtonProcess)
 	ON_BN_CLICKED(IDC_BUTTON_WINDOW, &CSecurityGuardDlg::OnBnClickedButtonWindow)
 	ON_BN_CLICKED(IDC_BUTTON_PE , &CSecurityGuardDlg::OnBnClickedButtonPE)
+//	ON_BN_CLICKED(IDC_BUTTON_THREAD, &CSecurityGuardDlg::OnBnClickedButtonThread)
 END_MESSAGE_MAP()
 
 
@@ -191,3 +193,12 @@ void CSecurityGuardDlg::OnBnClickedButtonPE()
 	CPeInfoDlg dlg;
 	dlg.DoModal();
 }
+
+
+//void CSecurityGuardDlg::OnBnClickedButtonThread()
+//{
+//	// TODO: 在此添加控件通知处理程序代码
+//	CThreadDlg dlg;
+//	dlg.DoModal();
+//
+//}

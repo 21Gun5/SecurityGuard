@@ -49,11 +49,12 @@ BOOL CModuleDlg::OnInitDialog()
 	m_list.InsertColumn(3, L"路径", 0, 480);
 	// 获取进程的所有模块
 	std::vector<MODULEENTRY32> moduleList;
-	GetProcessAllModule(m_pID, &moduleList);
+	getProcessAllModule(m_pID, &moduleList);
 	// 插入到列表（插入行、设置内容
 	int index = 0;
 	CString buffer;
-	for (auto&i : moduleList) {
+	for (auto&i : moduleList) 
+	{
 		m_list.InsertItem(index, i.szModule);
 		buffer.Format(L"%08X", i.modBaseAddr);
 		m_list.SetItemText(index, 1, buffer);

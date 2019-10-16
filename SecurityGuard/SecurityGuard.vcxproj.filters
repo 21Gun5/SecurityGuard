@@ -72,6 +72,9 @@
     <ClInclude Include="CDDDelayLoadDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CThreadDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SecurityGuard.cpp">
@@ -123,6 +126,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CDDDelayLoadDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CThreadDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

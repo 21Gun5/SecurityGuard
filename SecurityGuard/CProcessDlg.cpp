@@ -5,8 +5,10 @@
 #include "SecurityGuard.h"
 #include "CProcessDlg.h"
 #include "afxdialogex.h"
+#include "CModuleDlg.h"
+#include "CThreadDlg.h"
 
-
+CRITICAL_SECTION g_critical_section;
 
 // CProcessDlg 对话框
 
@@ -15,7 +17,7 @@ IMPLEMENT_DYNAMIC(CProcessDlg, CDialogEx)
 CProcessDlg::CProcessDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CProcessDlg, pParent)
 {
-
+	InitializeCriticalSection(&g_critical_section);
 }
 
 CProcessDlg::~CProcessDlg()
@@ -28,140 +30,145 @@ void CProcessDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
-
 BEGIN_MESSAGE_MAP(CProcessDlg, CDialogEx)
+	ON_WM_SIZE()
 	ON_WM_TIMER()
 	ON_NOTIFY(NM_RCLICK, IDC_LIST1, &CProcessDlg::OnRclickList1)
 	ON_COMMAND(ID_32771, &CProcessDlg::OnMenuKillproc)
 	ON_COMMAND(ID_32772, &CProcessDlg::OnMenuListmodule)
+	ON_COMMAND(ID_32774, &CProcessDlg::OnMenuListThread)
 END_MESSAGE_MAP()
 
-
 // CProcessDlg 消息处理程序
-
-
 BOOL CProcessDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// TODO:  在此添加额外的初始化
-
 	m_menu.LoadMenu(IDR_MENU1);
-	// 设置 list 控件的扩展风格
+
+	// TODO:  在此添加额外的初始化
 	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-	// 显示字段名（插入列
+
 	m_list.InsertColumn(0, L"名称", 0, 250);
 	m_list.InsertColumn(1, L"PID", 0, 150);
 	m_list.InsertColumn(2, L"CPU", 0, 150);
 	m_list.InsertColumn(3, L"内存", 0, 150);
 
-	// 动态更新列表
-	SetTimer(0, 1000, NULL);//计时器id、间隔时间、为NULL时本窗口将接收WM_TIMER消息
-	// 更新列表（插入行
-	//UpdateProcessList();
 
+	SetTimer(0,/*定时器的ID,功能类似于控件ID*/
+		1000,/*间隔时间*/
+		NULL/*回调函数, 如果为空,那么本窗口将接收到WM_TIMER的消息*/);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
 }
-
-
+// 定时器消息
 void CProcessDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-
 	CDialogEx::OnTimer(nIDEvent);
 
-	UpdateProcessList();
+	// 更新进程列表(cpu使用率,内存使用率)
+	updateProcessList();
 }
-
-void CProcessDlg::UpdateProcessList()
+void CProcessDlg::updateProcessList()
 {
-	// TODO: 在此处添加实现代码.
 
-	// 获取进程列表
-	std::vector <PROCESSINFO> newProcList;
-	GetAllRunningProcess(&newProcList);
-	// 若列表为空，则是第一次插入
-	if (m_procList.size() == 0)
+	// 获取最新的进程列表
+	std::vector<PROCESSINFO> newProcList;
+	if (!getAllProcess(&newProcList))
 	{
-		// 循环插入进程信息（设置内容
-		int index = 0;
-		for (auto &i : newProcList)
-		{
-			CString  buffer;// 整型转字符串所用缓冲区
-			m_list.InsertItem(index, _T(""));// 插入行
+		return;
+	}
+	// 删除和增加属于原子操作, 所以需要进入临界区
+	EnterCriticalSection(&g_critical_section);
 
-			m_list.SetItemText(index, 0, i.szExeFile);// 名称
+	// 1. 找到已退出进程的名字,然后在列表控件中删除掉.
+	// 1.1 使用旧列表的元素到新的列表中查找,没有找到,说明进程已退出
+	int index = 0;
+	for (auto itr = m_procList.begin();
+		itr != m_procList.end();
+		)
+	{
+		// 判断旧列表的元素是否存在于新列表中.
+		if (-1 == IndexOfProcessList(newProcList, itr->th32ProcessID)) {
+			// 不存在, 说明进程已退出, 将已退出的进程在
+			//  数组和列表控件中删除,
+			itr = m_procList.erase(itr);
+			m_list.DeleteItem(index);
+			continue;
+		}
+		// 刷新内存使用率
+		CString buffer;
+		DWORD memUsage = getProcessMemoryUsage(itr->th32ProcessID);
+		if (itr->dwMemoryUsage != memUsage)
+		{
+			buffer.Format(_T("%12dKb"), memUsage);
+			m_list.SetItemText(index, 3, buffer);
+			itr->dwMemoryUsage = memUsage;
+		}
+
+		// 刷新CPU使用率
+		double cpuUsage = getProcessCpuUsage(itr->th32ProcessID);
+
+		if (abs(itr->dCpuUsage - cpuUsage) >= 0.001)
+		{
+			buffer.Format(_T("%.1lf%%"), cpuUsage);
+			m_list.SetItemText(index, 2, buffer);
+			itr->dCpuUsage = cpuUsage;
+		}
+
+		// 下一个
+		++index;
+		++itr;
+	}
+
+	// 2. 找到新创建的进程, 插入到列表控件中.
+	// 2.1 使用新列表的元素到旧列表中查找, 没有找到,说明进程是新建的.		
+	index = m_list.GetItemCount();
+	for (auto&i : newProcList) {
+		if (-1 == IndexOfProcessList(m_procList, i.th32ProcessID)) {
+			// 插入到数组中
+			m_procList.push_back(i);
+			// 插入到列表控件中
+			CString buffer;
+			m_list.InsertItem(index, _T(""));
+			m_list.UpdateWindow();
 			buffer.Format(_T("%d"), i.th32ProcessID);
-			m_list.SetItemText(index, 1, buffer);//PID
-			index++;
-		}
-		m_procList.swap(newProcList);
-	}
-	// 若不为空，则更新列表
-	else
-	{
-		//MessageBox(NULL, L"123", MB_OK);
-		// 删除已退出进程（旧列表元素到新列表中找,没找到即已退出
-		int index = 0;
-		for (auto it = m_procList.begin(); it != m_procList.end(); )
-		{
-			// 没找到即已退出, 将其从进程数组和控件中删除
-			if (false == IsFindItemInList(newProcList, it->th32ProcessID)) {
-				it = m_procList.erase(it);
-				m_list.DeleteItem(index);
-				continue;
-			}
-			index++;
-			it++;		// 不该放到 for 中（因为有erase操作
-		}
-		// 插入新创建进程（新列表元素到旧列表中找, 没找到即新建的		
-		for (auto&proc : newProcList)
-		{
-			if (false == IsFindItemInList(m_procList, proc.th32ProcessID))
-			{
-				// 插入到进程数组中
-				m_procList.push_back(proc);
-				// 插入到列表控件中
-				CString buffer;
-				m_list.InsertItem(index, _T(""));
-				m_list.SetItemText(index, 0, proc.szExeFile);
-				buffer.Format(_T("%d"), proc.th32ProcessID);
-				m_list.SetItemText(index, 1, buffer);
-			}
+			m_list.SetItemText(index, 0, i.szExeFile);
+			m_list.SetItemText(index, 1, buffer);
+			m_list.SetItemText(index, 2, L"");
+			buffer.Format(_T("%12dKb"), (double)i.dwMemoryUsage);
+			m_list.SetItemText(index, 3, buffer);
+			++index;
 		}
 	}
-}
 
-bool CProcessDlg::IsFindItemInList(std::vector<PROCESSINFO> list, DWORD pid)
+	// 离开临界区
+	LeaveCriticalSection(&g_critical_section);
+}
+void CProcessDlg::OnSize(UINT nType, int cx, int cy)
 {
-	// TODO: 在此处添加实现代码.
-	for (int i = 0; i < list.size(); i++)
-	{
-		if (list[i].th32ProcessID == pid)
-		{
-			return true;
-		}
+	CDialogEx::OnSize(nType, cx, cy);
+
+	// TODO: 在此处添加消息处理程序代码
+	if (m_list.m_hWnd) {
+		m_list.SetWindowPos(0, 0, 0, cx, cy, SWP_NOZORDER);
 	}
-	return false;
 }
 
+// 进程列表控件右键单击
 void CProcessDlg::OnRclickList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-	// TODO: 在此添加控件通知处理程序代码
 
+	// 弹出菜单
 	*pResult = 0;
-	CMenu * pSubMenu = m_menu.GetSubMenu(0);
+	CMenu* pSubMenu = m_menu.GetSubMenu(0);
 	CPoint pos;
 	GetCursorPos(&pos);
 	pSubMenu->TrackPopupMenu(0, pos.x, pos.y, this);
 }
-
-
-
-
 void CProcessDlg::OnMenuKillproc()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -178,8 +185,6 @@ void CProcessDlg::OnMenuKillproc()
 	// 关闭句柄
 	CloseHandle(hProc);
 }
-
-
 void CProcessDlg::OnMenuListmodule()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -192,6 +197,22 @@ void CProcessDlg::OnMenuListmodule()
 	moduleDlg.SetProcessID(m_procList[index].th32ProcessID);
 	CString buffer;
 	buffer.Format(L"%s - 模块列表", m_procList[index].szExeFile);
+	moduleDlg.SetProcessName(buffer);
+	// 运行对话框
+	moduleDlg.DoModal();
+}
+void CProcessDlg::OnMenuListThread()
+{
+	// TODO: 在此添加命令处理程序代码
+
+	// 创建模块对话框
+	CThreadDlg moduleDlg(this);
+	// 获取被点击的进程（通过光标选择序号，序号从1开始，故-1
+	int index = (int)m_list.GetFirstSelectedItemPosition() - 1;
+	// 传递进程PID/名字给模块对话框
+	moduleDlg.SetProcessID(m_procList[index].th32ProcessID);
+	CString buffer;
+	buffer.Format(L"%s - 线程列表", m_procList[index].szExeFile);
 	moduleDlg.SetProcessName(buffer);
 	// 运行对话框
 	moduleDlg.DoModal();
