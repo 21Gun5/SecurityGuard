@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "CModuleDlg.h"
 #include "CThreadDlg.h"
+#include <Psapi.h>
 
 CRITICAL_SECTION g_critical_section;
 
@@ -37,6 +38,8 @@ BEGIN_MESSAGE_MAP(CProcessDlg, CDialogEx)
 	ON_COMMAND(ID_32771, &CProcessDlg::OnMenuKillproc)
 	ON_COMMAND(ID_32772, &CProcessDlg::OnMenuListmodule)
 	ON_COMMAND(ID_32774, &CProcessDlg::OnMenuListThread)
+	ON_BN_CLICKED(IDC_BUTTON_MEMSTATUS, &CProcessDlg::OnBnClickedButtonMemstatus)
+	ON_BN_CLICKED(IDC_BUTTON_MEMCLEAN, &CProcessDlg::OnBnClickedButtonMemclean)
 END_MESSAGE_MAP()
 
 // CProcessDlg 消息处理程序
@@ -216,4 +219,50 @@ void CProcessDlg::OnMenuListThread()
 	moduleDlg.SetProcessName(buffer);
 	// 运行对话框
 	moduleDlg.DoModal();
+}
+
+
+// 获取内存使用状态
+void CProcessDlg::OnBnClickedButtonMemstatus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	MEMORYSTATUSEX stcMemStatusEx = { 0 };
+	stcMemStatusEx.dwLength = sizeof(stcMemStatusEx);
+	GlobalMemoryStatusEx(&stcMemStatusEx);
+	DWORDLONG preUsedMem = stcMemStatusEx.ullTotalPhys - stcMemStatusEx.ullAvailPhys;
+	CString buff;
+	buff.Format(L"内存已使用: %lld MB", preUsedMem / (1024 * 1024));
+	MessageBox(buff);
+}
+
+// 清理内存
+void CProcessDlg::OnBnClickedButtonMemclean()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	MEMORYSTATUSEX stcMemStatusEx = { 0 };
+	stcMemStatusEx.dwLength = sizeof(stcMemStatusEx);
+	GlobalMemoryStatusEx(&stcMemStatusEx);
+	DWORDLONG preUsedMem = stcMemStatusEx.ullTotalPhys - stcMemStatusEx.ullAvailPhys;
+
+	DWORD dwPIDlist[1000] = { 0 };
+	DWORD bufSize = sizeof(dwPIDlist);
+	DWORD dwNeedSize = 0;
+	EnumProcesses(dwPIDlist, bufSize, &dwNeedSize);
+	for (DWORD i = 0; i < dwNeedSize / sizeof(DWORD); i++)
+	{
+		HANDLE hProcess = OpenProcess(PROCESS_SET_QUOTA, false, dwPIDlist[i]);
+		SetProcessWorkingSetSize(hProcess, -1, -1);
+	}
+
+	GlobalMemoryStatusEx(&stcMemStatusEx);
+	DWORDLONG afterCleanUsedMem = stcMemStatusEx.ullTotalPhys - stcMemStatusEx.ullAvailPhys;
+	CString buff;
+	buff.Format(L"成功释放内存: %lld MB", (preUsedMem-afterCleanUsedMem) / (1024 * 1024));
+	MessageBox(buff);
+
+
+
+
+
 }

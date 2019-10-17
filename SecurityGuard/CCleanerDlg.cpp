@@ -7,7 +7,6 @@
 #include "afxdialogex.h"
 #include "CTools.h"
 
-
 // CCleanerDlg 对话框
 
 #define MY_MSG_SCANFILE (WM_USER+100)
@@ -146,10 +145,6 @@ LRESULT CCleanerDlg::OnScanFile(WPARAM w, LPARAM l)
 	return 1;
 }
 
-
-
-
-
 void CCleanerDlg::OnRclickList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -164,7 +159,6 @@ void CCleanerDlg::OnRclickList1(NMHDR *pNMHDR, LRESULT *pResult)
 	pSubMenu->TrackPopupMenu(0, pos.x, pos.y, this);
 }
 
-
 void CCleanerDlg::OnFileSelectall()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -175,7 +169,6 @@ void CCleanerDlg::OnFileSelectall()
 	}
 }
 
-
 void CCleanerDlg::OnFileUnselectAll()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -184,7 +177,6 @@ void CCleanerDlg::OnFileUnselectAll()
 		m_list.SetCheck(i, !m_list.GetCheck(i));
 	}
 }
-
 
 void CCleanerDlg::OnFileDeleteall()
 {
@@ -207,7 +199,6 @@ void CCleanerDlg::OnFileDeleteall()
 	}
 }
 
-
 void CCleanerDlg::OnFileDeleteone()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -226,21 +217,18 @@ void CCleanerDlg::OnFileDeleteone()
 	//m_list.DeleteItem(nPos);
 }
 
-
 void CCleanerDlg::OnBnClickedButtonRbinfo()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	
 	// 初始化回收站结构体
 	SHQUERYRBINFO RecycleBinInfo = { };
 	RecycleBinInfo.cbSize = sizeof(RecycleBinInfo);
 	// 查询信息
 	SHQueryRecycleBin(NULL, &RecycleBinInfo);
 	CString buff;
-	buff.Format(L"大小:%lldKB\n数量:%lld个", RecycleBinInfo.i64Size, RecycleBinInfo.i64NumItems);
+	buff.Format(L"大小: %lld MB\n数量: %lld 个", RecycleBinInfo.i64Size / (1024 * 1024), RecycleBinInfo.i64NumItems);
 	MessageBox(buff);
 }
-
 
 void CCleanerDlg::OnBnClickedButtonCleanrb()
 {

@@ -14,7 +14,9 @@ public:
 
 	// 对话框数据
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_PROCESS };
+	enum {
+		IDD = IDD_CProcessDlg
+};
 #endif
 
 protected:
@@ -36,4 +38,6 @@ public:
 	afx_msg void OnMenuListmodule();
 	afx_msg void OnMenuListThread();
 
+	afx_msg void OnBnClickedButtonMemstatus();
+	afx_msg void OnBnClickedButtonMemclean();
 };
