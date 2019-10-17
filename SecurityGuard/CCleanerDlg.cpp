@@ -39,6 +39,7 @@ BEGIN_MESSAGE_MAP(CCleanerDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_CHOOSEDIR, &CCleanerDlg::OnBnClickedButtonChoosedir)
 	ON_BN_CLICKED(IDC_BUTTON_SCAN, &CCleanerDlg::OnBnClickedButtonScan)
 	ON_MESSAGE(MY_MSG_SCANFILE, &CCleanerDlg::OnScanFile)
+
 	ON_NOTIFY(NM_RCLICK, IDC_LIST1, &CCleanerDlg::OnRclickList1)
 	ON_COMMAND(ID_32775, &CCleanerDlg::OnFileSelectall)
 	ON_COMMAND(ID_32776, &CCleanerDlg::OnFileUnselectAll)
@@ -220,5 +221,5 @@ void CCleanerDlg::OnFileDeleteone()
 	{
 		m_list.DeleteItem(nPos);
 	}
-	m_list.DeleteItem(nPos);
+	//m_list.DeleteItem(nPos);
 }

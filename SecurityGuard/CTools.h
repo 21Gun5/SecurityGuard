@@ -111,5 +111,4 @@ struct FILEINFO {
  * ·µ»ØÖµ : bool
  */
 bool findFiles(const TCHAR* dir, const TCHAR* filter, std::list<FILEINFO>* filelist = NULL, HWND hWnd = NULL, UINT uMsg = 0);
-
 void getWindows(std::list<HWND>* wndList);

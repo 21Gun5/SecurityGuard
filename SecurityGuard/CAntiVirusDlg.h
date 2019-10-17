@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "MD5.h"
+using namespace std;
 
 // CAntiVirus 对话框
 
@@ -22,8 +23,26 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
-	CTreeCtrl m_tree;
-	void InitFileTree(CString str_Dir, HTREEITEM tree_Root);
+//	CTreeCtrl m_tree;
+//	void InitFileTree(CString str_Dir, HTREEITEM tree_Root);
 	afx_msg void OnBnClickedButtonChoosedir();
 	CString m_editDir;
+
+	LRESULT OnScanFile(WPARAM w, LPARAM l);
+	void OnBnClickedButtonScan();
+	CListCtrl m_list;
+
+	DWORD64 m_totalSize;
+	HANDLE m_hScanThread;
+
+	const TCHAR* m_filter = L".txt .exe .dll";
+	afx_msg void OnRclickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnMd5anti();
 };
+
+// 文件名和md5的结构体
+typedef struct _FILEANDMD5
+{
+	int index;
+	MD5VAL md5;
+}FILEANDMD5;

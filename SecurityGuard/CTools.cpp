@@ -396,7 +396,8 @@ bool findFiles(const TCHAR* dir, const TCHAR* filter, std::list<FILEINFO>* filel
 			while (pExtName != fData.cFileName && *pExtName != '.')
 				--pExtName;
 			// 判断扩展名是否是要过滤出来的文件扩展名
-			if (_tcsstr(filter, pExtName) != NULL) {
+			if (_tcsstr(filter, pExtName) != NULL) 
+			{
 				// 将文件信息保存到数组中
 				memcpy(&fInfo, &fData, sizeof(FILEINFO) - sizeof(fInfo.path));
 				// 拼接完整的路径
@@ -419,6 +420,7 @@ bool findFiles(const TCHAR* dir, const TCHAR* filter, std::list<FILEINFO>* filel
 	} while (FindNextFile(hFind, &fData));
 	return true;
 }
+
 
 
 BOOL CALLBACK wndProc(HWND hWnd, LPARAM l)

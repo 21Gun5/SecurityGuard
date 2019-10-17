@@ -27,6 +27,7 @@
 #define IDR_MENU3                       163
 #define IDD_CServiceDlg                 164
 #define IDR_MENU4                       166
+#define IDR_MENU5                       167
 #define IDC_LIST1                       1002
 #define IDC_BUTTON_PROCESS              1003
 #define IDC_LIST_SECTION                1003
@@ -87,14 +88,16 @@
 #define ID_32781                        32781
 #define ID_startService                 32782
 #define ID_stopService                  32783
+#define ID_32784                        32784
+#define ID_MD5Anti                      32785
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        167
-#define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1046
+#define _APS_NEXT_RESOURCE_VALUE        168
+#define _APS_NEXT_COMMAND_VALUE         32786
+#define _APS_NEXT_CONTROL_VALUE         1047
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif
