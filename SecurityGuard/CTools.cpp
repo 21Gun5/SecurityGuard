@@ -191,6 +191,8 @@
 #include "CTools.h"
 #include <Psapi.h>
 
+//wchar_t * g_PePath = NULL;
+
 bool getAllProcess(_Out_ std::vector<PROCESSINFO>* procList)
 {
 	// 1. 先给当前系统所有的进程拍一个快照.

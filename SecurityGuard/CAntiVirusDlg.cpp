@@ -5,7 +5,7 @@
 #include "SecurityGuard.h"
 #include "CAntiVirusDlg.h"
 #include "afxdialogex.h"
-#include "CTools.h"
+
 
 #include <locale.h>
 
@@ -46,6 +46,7 @@ void CAntiVirusDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT1, m_editDir);
 	DDX_Control(pDX, IDC_LIST1, m_list);
 	//  DDX_Text(pDX, IDC_EDIT_TEST, m_editTest);
+	DDX_Control(pDX, IDC_LIST2, m_listWhiteProcess);
 }
 
 
@@ -55,6 +56,9 @@ BEGIN_MESSAGE_MAP(CAntiVirusDlg, CDialogEx)
 	ON_MESSAGE(MY_MSG_SCANFILE2, &CAntiVirusDlg::OnScanFile)
 	ON_NOTIFY(NM_RCLICK, IDC_LIST1, &CAntiVirusDlg::OnRclickList1)
 	ON_COMMAND(ID_MD5Anti, &CAntiVirusDlg::OnMd5anti)
+	ON_BN_CLICKED(IDC_BUTTON_VIRUSPROCESS, &CAntiVirusDlg::OnBnClickedButtonVirusprocess)
+	ON_COMMAND(ID_KillVirusProc, &CAntiVirusDlg::OnKillvirusproc)
+	ON_NOTIFY(NM_RCLICK, IDC_LIST2, &CAntiVirusDlg::OnRclickList2)
 END_MESSAGE_MAP()
 
 
@@ -66,49 +70,26 @@ BOOL CAntiVirusDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
-
+	// 文件列表
 	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_CHECKBOXES);
 	m_list.InsertColumn(0, L"Index", 0, 100);
 	m_list.InsertColumn(1, L"路径", 0, 700);
 	//m_list.InsertColumn(1, L"Size", 0, 100);
 
+	// 白名单外进程列表
+	m_listWhiteProcess.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
+	m_listWhiteProcess.InsertColumn(0, L"名称", 0, 250);
+	m_listWhiteProcess.InsertColumn(1, L"PID", 0, 150);
 
+
+	// 初始化白名单（用首次获取的进程来模拟
+	getAllProcess(&m_vecWhiteProcessList);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
 }
 
 
-//void CAntiVirusDlg::InitFileTree(CString str_Dir, HTREEITEM tree_Root)
-//{
-//	CFileFind FileFind;
-//	//临时变量，用以记录返回的树节点
-//	HTREEITEM tree_Temp;
-//	//判断输入目录最后是否存在'\'，不存在则补充
-//	if (str_Dir.Right(1) != "\\")
-//		str_Dir += "\\";
-//	str_Dir += "*.*";
-//	BOOL res = FileFind.FindFile(str_Dir);
-//	while (res)
-//	{
-//		tree_Temp = tree_Root;
-//		res = FileFind.FindNextFileW();
-//		if (FileFind.IsDirectory() && !FileFind.IsDots())//目录是文件夹
-//		{
-//			CString strPath = FileFind.GetFilePath(); //得到路径，做为递归调用的开始
-//			CString strTitle = FileFind.GetFileName();//得到目录名，做为树控的结点
-//			tree_Temp = m_tree.InsertItem(strTitle, 0, 0, tree_Root);
-//			InitFileTree(strPath, tree_Temp);
-//		}
-//		else if (!FileFind.IsDirectory() && !FileFind.IsDots())//如果是文件
-//		{
-//			CString strPath = FileFind.GetFilePath(); //得到路径，做为递归调用的开始
-//			CString strTitle = FileFind.GetFileName();//得到文件名，做为树控的结点
-//			m_tree.InsertItem(strTitle, 0, 0, tree_Temp);
-//		}
-//	}
-//	FileFind.Close();
-//}
 
 void CAntiVirusDlg::OnBnClickedButtonChoosedir()
 {
@@ -301,4 +282,70 @@ void CAntiVirusDlg::OnMd5anti()
 	fclose(fpmd5file);
 	fclose(fpTestFile);
 
+}
+
+
+void CAntiVirusDlg::OnBnClickedButtonVirusprocess()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	// 清空旧列表
+	m_listWhiteProcess.DeleteAllItems();
+	// 获取新的进程列表
+	std::vector<PROCESSINFO> newProcList;
+	getAllProcess(&newProcList);
+	// 将不在白名单中的列举出来
+	int index = 0;
+	for (auto&i : newProcList) 
+	{
+		if (-1 == IndexOfProcessList(m_vecWhiteProcessList, i.th32ProcessID)) 
+		{
+			// 插入到列表控件中
+			CString buffer;
+			m_listWhiteProcess.InsertItem(index, _T(""));
+			m_listWhiteProcess.UpdateWindow();
+			m_listWhiteProcess.SetItemText(index, 0, i.szExeFile);
+			buffer.Format(_T("%d"), i.th32ProcessID);
+			m_listWhiteProcess.SetItemText(index, 1, buffer);
+			++index;
+		}
+	}
+
+}
+
+
+
+
+
+void CAntiVirusDlg::OnRclickList2(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	*pResult = 0;
+
+	CMenu menu;
+	menu.LoadMenu(IDR_MENU6);
+	CMenu* pSubMenu = menu.GetSubMenu(0);
+	CPoint pos;
+	GetCursorPos(&pos);
+	pSubMenu->TrackPopupMenu(0, pos.x, pos.y, this);
+}
+
+
+void CAntiVirusDlg::OnKillvirusproc()
+{
+	// TODO: 在此添加命令处理程序代码
+
+	// 获取待结束进程（通过光标选择序号，序号从1开始，故-1
+	int index = (int)m_listWhiteProcess.GetFirstSelectedItemPosition() - 1;
+	// 获取进程id（字符串转整形
+	CString strPid = m_listWhiteProcess.GetItemText(index, 1);// 第1列是pid
+	DWORD dwPid = _wtoi(strPid);
+	// 获取进程句柄（要通过句柄来结束进程
+	HANDLE hProc = OpenProcess(PROCESS_TERMINATE, FALSE, dwPid);
+	
+	TerminateProcess(hProc, 0);// 结束进程
+	m_listWhiteProcess.DeleteItem(index);//从列表中删除
+	// 关闭句柄
+	CloseHandle(hProc);
 }

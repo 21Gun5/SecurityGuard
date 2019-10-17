@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#include "CTools.h"
+
+
 
 // CSectionDlg 对话框
 

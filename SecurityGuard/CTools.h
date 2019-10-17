@@ -51,6 +51,8 @@
 #include <list>
 
 
+//extern wchar_t * g_PePath;
+
 struct PROCESSINFO : public PROCESSENTRY32
 {
 	DWORD dwMemoryUsage; // 内存使用率

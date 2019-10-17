@@ -6,6 +6,8 @@
 #include "CDDTLSDlg.h"
 #include "afxdialogex.h"
 #include "CPe.h"
+#include "CPeInfoDlg.h"
+
 
 // CDDTLSDlg 对话框
 
@@ -48,7 +50,8 @@ BOOL CDDTLSDlg::OnInitDialog()
 
 	// 获取pe信息
 	CPe pe;
-	bool isPe = pe.InitPe(PE_PATH);
+	//bool isPe = pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 
 	PIMAGE_TLS_DIRECTORY32 pTLS = pe.GetTLSDirectory();
 	// 循环设置dll列表

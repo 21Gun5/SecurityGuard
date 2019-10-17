@@ -6,6 +6,8 @@
 #include "CDDRelocDlg.h"
 #include "afxdialogex.h"
 #include "CPe.h"
+#include "CPeInfoDlg.h"
+
 
 // CDDRelocDlg 对话框
 
@@ -60,7 +62,8 @@ BOOL CDDRelocDlg::OnInitDialog()
 
 	// 获取pe信息
 	CPe pe;
-	pe.InitPe((TCHAR*)PE_PATH);
+	//pe.InitPe((TCHAR*)PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	//pe.ShowRelocalInfo();
 
 	PIMAGE_BASE_RELOCATION pRelocal = pe.GetRelocalDirectory();
@@ -108,7 +111,7 @@ void CDDRelocDlg::OnClickListSection(NMHDR *pNMHDR, LRESULT *pResult)
 
 	// 获取pe信息
 	CPe pe;
-	pe.InitPe((TCHAR*)PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	PIMAGE_BASE_RELOCATION pRelocal = pe.GetRelocalDirectory();
 	// 遍历所有的重定位数据
 	while (pRelocal->SizeOfBlock)

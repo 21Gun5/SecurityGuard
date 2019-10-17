@@ -6,6 +6,7 @@
 #include "CDDExportDlg.h"
 #include "afxdialogex.h"
 #include "CPe.h"
+#include "CPeInfoDlg.h"
 
 
 // CExportDlg 对话框
@@ -66,7 +67,8 @@ BOOL CDDExportDlg::OnInitDialog()
 	m_list.InsertColumn(2, L"函数地址", 0, 250);
 	// 获取导出表信息
 	CPe pe;
-	bool isPe = pe.InitPe(PE_PATH);
+	//bool isPe = pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	PIMAGE_EXPORT_DIRECTORY pExport = pe.GetExportDirectory();
 	// 填充基本信息（编辑框中
 	UpdateData(TRUE);

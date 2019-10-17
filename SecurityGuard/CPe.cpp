@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include "CPe.h"
 
+
 char * g_PeBuff = NULL;
+//wchar_t * g_PePath= NULL;
 
 bool CPe::InitPe(TCHAR * path)
 {

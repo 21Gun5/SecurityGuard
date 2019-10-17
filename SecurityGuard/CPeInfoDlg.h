@@ -3,6 +3,8 @@
 
 // CPeInfoDlg 对话框
 
+extern wchar_t * g_PePath;
+
 class CPeInfoDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CPeInfoDlg)

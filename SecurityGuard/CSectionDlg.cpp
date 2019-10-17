@@ -6,6 +6,7 @@
 #include "CSectionDlg.h"
 #include "afxdialogex.h"
 #include "CPe.h"
+#include "CPeInfoDlg.h"
 
 
 // CSectionDlg 对话框
@@ -38,9 +39,12 @@ END_MESSAGE_MAP()
 
 BOOL CSectionDlg::OnInitDialog()
 {
+
 	CDialogEx::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
+
+
 
 	// 设置list扩展风格
 	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
@@ -53,8 +57,11 @@ BOOL CSectionDlg::OnInitDialog()
 	m_list.InsertColumn(5, L"标记", 0, 150);
 	// 获取pe信息
 	CPe pe;
-	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
-	bool isPe = pe.InitPe(PE_PATH);
+
+
+
+	//g_PePath = L"";
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	PIMAGE_NT_HEADERS pNt = pe.GetNtHeader();
 	PIMAGE_SECTION_HEADER pSection = IMAGE_FIRST_SECTION(pNt);
 	int index = 0;
@@ -64,7 +71,7 @@ BOOL CSectionDlg::OnInitDialog()
 		CString  buffer;
 		m_list.InsertItem(index, _T(""));// 插入行
 
-		char tempame[9] = {0};
+		char tempame[9] = { 0 };
 		memcpy(tempame, pSection[i].Name, 8);
 		buffer.Format(_T("%S"), tempame);
 		m_list.SetItemText(index, 0, buffer);

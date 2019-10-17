@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "MD5.h"
+#include "CTools.h"
 using namespace std;
 
 // CAntiVirus 对话框
@@ -38,6 +39,14 @@ public:
 	const TCHAR* m_filter = L".txt .exe .dll";
 	afx_msg void OnRclickList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnMd5anti();
+	CListCtrl m_listWhiteProcess;
+
+
+	std::vector<PROCESSINFO> m_vecWhiteProcessList;
+
+	afx_msg void OnBnClickedButtonVirusprocess();
+	afx_msg void OnKillvirusproc();
+	afx_msg void OnRclickList2(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 // 文件名和md5的结构体

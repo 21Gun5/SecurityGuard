@@ -6,6 +6,8 @@
 #include "CDDDelayLoadDlg.h"
 #include "afxdialogex.h"
 #include "CPe.h"
+#include "CPeInfoDlg.h"
+
 
 
 // CDDDelayLoadDlg 对话框
@@ -51,7 +53,8 @@ BOOL CDDDelayLoadDlg::OnInitDialog()
 
 	// 获取pe信息
 	CPe pe;
-	bool isPe = pe.InitPe(PE_PATH);
+	//bool isPe = pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 
 	PIMAGE_DELAYLOAD_DESCRIPTOR pDelayLoad = pe.GetDelayLoadDirectory();
 	// 循环设置dll列表

@@ -38,4 +38,6 @@ public:
 	afx_msg void OnFileUnselectAll();
 	afx_msg void OnFileDeleteall();
 	afx_msg void OnFileDeleteone();
+	afx_msg void OnBnClickedButtonRbinfo();
+	afx_msg void OnBnClickedButtonCleanrb();
 };

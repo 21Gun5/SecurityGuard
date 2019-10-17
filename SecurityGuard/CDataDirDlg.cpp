@@ -12,6 +12,7 @@
 #include "CDDRelocDlg.h"
 #include "CDDTLSDlg.h"
 #include "CDDDelayLoadDlg.h"
+#include "CPeInfoDlg.h"
 
 
 // CDataDirDlg 对话框
@@ -59,7 +60,8 @@ BOOL CDataDirDlg::OnInitDialog()
 	// 获取pe信息
 	CPe pe;
 	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
-	bool isPe = pe.InitPe(PE_PATH);
+	//bool isPe = pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	
 	PIMAGE_NT_HEADERS pNt = pe.GetNtHeader();
 	int index = 0;

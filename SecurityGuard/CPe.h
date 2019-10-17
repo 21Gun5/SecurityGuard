@@ -3,9 +3,7 @@
 #include "CTools.h"
 
 extern char * g_PeBuff;
-//#define PE_PATH (TCHAR*)L"03FileCleaner.exe"
-//#define PE_PATH (TCHAR*)L"04ясЁы╪сть.exe"
-//#define PE_PATH (TCHAR*)L"03TLS.exe"
+//extern wchar_t * g_PePath;
 #define PE_PATH (TCHAR*)L".//res//ForTestPE//01PEнд╪Ч.exe"
 
 class CPe

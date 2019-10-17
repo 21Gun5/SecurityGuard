@@ -8,6 +8,19 @@
 #include "CPe.h"
 #include "CSectionDlg.h"
 #include "CDataDirDlg.h"
+wchar_t * g_PePath ;
+
+
+// 宽字符转换为多字符(Unicode --> ASCII)
+#define  WCHAR_TO_CHAR(lpW_Char, lpChar) \
+     WideCharToMultiByte(CP_ACP, NULL, lpW_Char, -1, \
+ lpChar, _countof(lpChar), NULL, FALSE);
+
+
+// 多字符转换为宽字符(ASCII --> Unicode)
+#define  CHAR_TO_WCHAR(lpChar, lpW_Char) \
+     MultiByteToWideChar(CP_ACP, NULL, lpChar, -1, \
+ lpW_Char, _countof(lpW_Char));
 
 
 // CPeInfoDlg 对话框
@@ -101,10 +114,26 @@ void CPeInfoDlg::OnBnClickedButtonChoose()
 void CPeInfoDlg::OnBnClickedButtonAnalyse()
 {
 	// TODO: 在此添加控件通知处理程序代码
+
+	if (m_file.IsEmpty())
+	{
+		MessageBox(L"先选择文件", 0, 0);
+		return;
+	}
+
+
+	// 将所选择的文件路径，赋值为全局变量
+	WCHAR wstr[100] = { 0 };
+	CHAR str[100] = { 0 };
+	wcscpy_s(wstr, 100, m_file);
+	//WCHAR_TO_CHAR(wstr, str);
+	g_PePath = wstr;
+
+
+
 	CPe pe;
 	// 加载文件
-	bool isPe = pe.InitPe(PE_PATH);
-	//bool isPe = pe.InitPe((TCHAR*)L"01PE文件.exe");
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	//检测是否是PE文件
 	if (!isPe)
 	{
@@ -137,6 +166,20 @@ void CPeInfoDlg::OnBnClickedButtonAnalyse()
 void CPeInfoDlg::OnBnClickedButtonSecInfo()
 {
 	// TODO: 在此添加控件通知处理程序代码
+
+	if (m_file.IsEmpty())
+	{
+		MessageBox(L"先选择文件", 0, 0);
+		return;
+	}
+
+		// 将所选择的文件路径，赋值为全局变量
+	WCHAR wstr[100] = { 0 };
+	CHAR str[100] = { 0 };
+	wcscpy_s(wstr, 100, m_file);
+	//WCHAR_TO_CHAR(wstr, str);
+	g_PePath = wstr;
+
 	CSectionDlg dlg;
 	dlg.DoModal();
 }
@@ -145,6 +188,20 @@ void CPeInfoDlg::OnBnClickedButtonSecInfo()
 void CPeInfoDlg::OnBnClickedButtonDirInfo()
 {
 	// TODO: 在此添加控件通知处理程序代码
+
+	if (m_file.IsEmpty())
+	{
+		MessageBox(L"先选择文件", 0, 0);
+		return ;
+	}
+
+	// 将所选择的文件路径，赋值为全局变量
+	WCHAR wstr[100] = { 0 };
+	CHAR str[100] = { 0 };
+	wcscpy_s(wstr, 100, m_file);
+	//WCHAR_TO_CHAR(wstr, str);
+	g_PePath = wstr;
+
 	CDataDirDlg dlg;
 	dlg.DoModal();
 }

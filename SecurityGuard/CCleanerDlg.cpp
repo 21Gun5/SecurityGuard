@@ -46,6 +46,8 @@ BEGIN_MESSAGE_MAP(CCleanerDlg, CDialogEx)
 	ON_COMMAND(ID_32777, &CCleanerDlg::OnFileDeleteall)
 	ON_COMMAND(ID_32778, &CCleanerDlg::OnFileDeleteone)
 	ON_WM_DROPFILES()
+	ON_BN_CLICKED(IDC_BUTTON_RBINFO, &CCleanerDlg::OnBnClickedButtonRbinfo)
+	ON_BN_CLICKED(IDC_BUTTON_CLEANRB, &CCleanerDlg::OnBnClickedButtonCleanrb)
 END_MESSAGE_MAP()
 
 
@@ -222,4 +224,30 @@ void CCleanerDlg::OnFileDeleteone()
 		m_list.DeleteItem(nPos);
 	}
 	//m_list.DeleteItem(nPos);
+}
+
+
+void CCleanerDlg::OnBnClickedButtonRbinfo()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	
+	// 初始化回收站结构体
+	SHQUERYRBINFO RecycleBinInfo = { };
+	RecycleBinInfo.cbSize = sizeof(RecycleBinInfo);
+	// 查询信息
+	SHQueryRecycleBin(NULL, &RecycleBinInfo);
+	CString buff;
+	buff.Format(L"大小:%lldKB\n数量:%lld个", RecycleBinInfo.i64Size, RecycleBinInfo.i64NumItems);
+	MessageBox(buff);
+}
+
+
+void CCleanerDlg::OnBnClickedButtonCleanrb()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	// 初始化回收站结构体
+	SHQUERYRBINFO RecycleBinInfo = { };
+	RecycleBinInfo.cbSize = sizeof(RecycleBinInfo);
+	//清空回收站
+	SHEmptyRecycleBin(NULL, NULL, NULL);
 }

@@ -6,6 +6,7 @@
 #include "CDDImportDlg.h"
 #include "afxdialogex.h"
 #include "CPe.h"
+#include "CPeInfoDlg.h"
 
 
 // CImportDlg 对话框
@@ -59,7 +60,8 @@ BOOL CDDImportDlg::OnInitDialog()
 
 	// 获取pe信息
 	CPe pe;
-	bool isPe = pe.InitPe(PE_PATH);
+	//bool isPe = pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 
 	PIMAGE_IMPORT_DESCRIPTOR pImport = pe.GetImportDirectory();
 	// 循环设置dll列表
@@ -96,7 +98,8 @@ void CDDImportDlg::OnClickListDll(NMHDR *pNMHDR, LRESULT *pResult)
 	CString curDllName = m_listDll.GetItemText(i, 0);
 
 	CPe pe;
-	bool isPe = pe.InitPe(PE_PATH);
+	//bool isPe = pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);//
 	PIMAGE_IMPORT_DESCRIPTOR pImport = pe.GetImportDirectory() + i;
 	// 获取IAT
 	PIMAGE_THUNK_DATA pIAT = (PIMAGE_THUNK_DATA)(pe.RvaToFoa(pImport->FirstThunk) + (DWORD)g_PeBuff);

@@ -6,6 +6,8 @@
 #include "CDDResDlg.h"
 #include "afxdialogex.h"
 #include "CPe.h"
+#include "CPeInfoDlg.h"
+
 
 const WCHAR* RES1[20] = {
 	L"光标",
@@ -214,7 +216,8 @@ BOOL CDDResDlg::OnInitDialog()
 	// 第一层：资源的类型是什么（图标，位图，菜单....）
 	// 获取资源目录
 	CPe pe;
-	pe.InitPe(PE_PATH);
+	//pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	PIMAGE_RESOURCE_DIRECTORY pResDirOne = pe.GetResourceDirectory();
 	// 获取资源目录项
 	PIMAGE_RESOURCE_DIRECTORY_ENTRY pResOneEntry =
@@ -359,7 +362,8 @@ void CDDResDlg::OnClickListType(NMHDR *pNMHDR, LRESULT *pResult)
 	CString name4Type = m_listType.GetItemText(index4Find, 1);
 	DWORD index4Type = _ttoi(m_listType.GetItemText(index4Find, 0));
 	CPe pe;
-	pe.InitPe(PE_PATH);
+	//pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	PIMAGE_RESOURCE_DIRECTORY pResDirOne = pe.GetResourceDirectory();
 	// 获取资源目录项
 	PIMAGE_RESOURCE_DIRECTORY_ENTRY pResOneEntry =
@@ -447,7 +451,8 @@ void CDDResDlg::OnClickListRes(NMHDR *pNMHDR, LRESULT *pResult)
 	UpdateData(FALSE);
 
 	CPe pe;
-	pe.InitPe(PE_PATH);
+	//pe.InitPe(PE_PATH);
+	bool isPe = pe.InitPe((TCHAR*)g_PePath);
 	PIMAGE_RESOURCE_DIRECTORY pResDirOne = pe.GetResourceDirectory();
 	// 获取资源目录项
 	PIMAGE_RESOURCE_DIRECTORY_ENTRY pResOneEntry =

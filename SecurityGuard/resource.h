@@ -28,6 +28,7 @@
 #define IDD_CServiceDlg                 164
 #define IDR_MENU4                       166
 #define IDR_MENU5                       167
+#define IDR_MENU6                       168
 #define IDC_LIST1                       1002
 #define IDC_BUTTON_PROCESS              1003
 #define IDC_LIST_SECTION                1003
@@ -36,6 +37,7 @@
 #define IDC_EDIT_FILTER                 1004
 #define IDC_BUTTON_CLEAN                1005
 #define IDC_BUTTON_SCAN                 1005
+#define IDC_BUTTON_VIRUSPROCESS         1006
 #define IDC_BUTTON_PE                   1009
 #define IDC_EDIT1                       1010
 #define IDC_BUTTON_ANTIVIRUS            1010
@@ -68,13 +70,11 @@
 #define IDC_EDIT_Size3                  1037
 #define IDC_EDIT_Size4                  1038
 #define IDC_LIST_RES                    1039
-#define IDC_TREE1                       1040
-#define IDC_BUTTON1                     1041
 #define IDC_BUTTON_CHOOSEDIR            1042
 #define IDC_EDIT_DIR                    1043
-#define IDC_RADIO2                      1045
-#define IDC_RADIO3                      1048
-#define IDC_RADIO4                      1049
+#define IDC_LIST2                       1047
+#define IDC_BUTTON_RBINFO               1048
+#define IDC_BUTTON_CLEANRB              1049
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -90,14 +90,16 @@
 #define ID_stopService                  32783
 #define ID_32784                        32784
 #define ID_MD5Anti                      32785
+#define ID_32786                        32786
+#define ID_KillVirusProc                32787
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        168
-#define _APS_NEXT_COMMAND_VALUE         32786
-#define _APS_NEXT_CONTROL_VALUE         1047
+#define _APS_NEXT_RESOURCE_VALUE        169
+#define _APS_NEXT_COMMAND_VALUE         32788
+#define _APS_NEXT_CONTROL_VALUE         1049
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif
