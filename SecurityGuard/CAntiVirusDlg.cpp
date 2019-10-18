@@ -9,6 +9,10 @@
 
 #include <locale.h>
 
+#include<WinSock2.h>
+#pragma comment(lib,"ws2_32.lib")
+#include <Ws2tcpip.h>
+
 
 // 宽字符转换为多字符(Unicode --> ASCII)
 #define  WCHAR_TO_CHAR(lpW_Char, lpChar) \
@@ -59,6 +63,7 @@ BEGIN_MESSAGE_MAP(CAntiVirusDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_VIRUSPROCESS, &CAntiVirusDlg::OnBnClickedButtonVirusprocess)
 	ON_COMMAND(ID_KillVirusProc, &CAntiVirusDlg::OnKillvirusproc)
 	ON_NOTIFY(NM_RCLICK, IDC_LIST2, &CAntiVirusDlg::OnRclickList2)
+	ON_COMMAND(ID_antiOnline, &CAntiVirusDlg::Onantionline)
 END_MESSAGE_MAP()
 
 
@@ -71,8 +76,8 @@ BOOL CAntiVirusDlg::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化
 	// 文件列表
-	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_CHECKBOXES);
-	m_list.InsertColumn(0, L"Index", 0, 100);
+	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
+	m_list.InsertColumn(0, L"Index", 0, 50);
 	m_list.InsertColumn(1, L"路径", 0, 700);
 	//m_list.InsertColumn(1, L"Size", 0, 100);
 
@@ -174,8 +179,8 @@ LRESULT CAntiVirusDlg::OnScanFile(WPARAM w, LPARAM l)
 
 
 	// 将文件的md5值写入文件
-	FILE * fprawFile=NULL;
-	FILE* fpmd5file=NULL;
+	FILE * fprawFile = NULL;
+	FILE* fpmd5file = NULL;
 	//char * rawfile = ".\\res\\AntiVirus\\MD5\\Files\\TestFiles\\1.txt";
 	char * md5file = ".\\res\\AntiVirus\\MD5\\md5.txt";
 
@@ -225,8 +230,8 @@ void CAntiVirusDlg::OnMd5anti()
 		return;
 	}
 	int nPos = (int)pos - 1;
-	CString path = m_list.GetItemText(nPos, 1); 
-	int index=_ttoi(m_list.GetItemText(nPos, 0));
+	CString path = m_list.GetItemText(nPos, 1);
+	int index = _ttoi(m_list.GetItemText(nPos, 0));
 
 	// 对比md5值
 	FILE* fpmd5file;
@@ -274,7 +279,7 @@ void CAntiVirusDlg::OnMd5anti()
 
 
 	}
-	
+
 
 
 	//
@@ -296,9 +301,9 @@ void CAntiVirusDlg::OnBnClickedButtonVirusprocess()
 	getAllProcess(&newProcList);
 	// 将不在白名单中的列举出来
 	int index = 0;
-	for (auto&i : newProcList) 
+	for (auto&i : newProcList)
 	{
-		if (-1 == IndexOfProcessList(m_vecWhiteProcessList, i.th32ProcessID)) 
+		if (-1 == IndexOfProcessList(m_vecWhiteProcessList, i.th32ProcessID))
 		{
 			// 插入到列表控件中
 			CString buffer;
@@ -312,9 +317,6 @@ void CAntiVirusDlg::OnBnClickedButtonVirusprocess()
 	}
 
 }
-
-
-
 
 
 void CAntiVirusDlg::OnRclickList2(NMHDR *pNMHDR, LRESULT *pResult)
@@ -343,9 +345,82 @@ void CAntiVirusDlg::OnKillvirusproc()
 	DWORD dwPid = _wtoi(strPid);
 	// 获取进程句柄（要通过句柄来结束进程
 	HANDLE hProc = OpenProcess(PROCESS_TERMINATE, FALSE, dwPid);
-	
+
 	TerminateProcess(hProc, 0);// 结束进程
 	m_listWhiteProcess.DeleteItem(index);//从列表中删除
 	// 关闭句柄
 	CloseHandle(hProc);
+}
+
+
+
+
+
+void CAntiVirusDlg::Onantionline()
+{
+	// TODO: 在此添加命令处理程序代码
+
+	// 获取点击处文件的md5值
+	int index = (int)m_list.GetFirstSelectedItemPosition() - 1;
+	CString name = m_list.GetItemText(index, 1);
+	FILE* fpfile;
+	//char * filename = "C:\\Users\\Rylynn\\source\\repos\\SecurityGuard\\SecurityGuard\\res\\AntiVirus\\KillOnline\\virus2.txt";
+	char filename[100] = { 0 };
+	// 将文件名从cstring转为char *
+	WCHAR wstr2[100] = { 0 };
+	CHAR str2[100] = { 0 };
+	wcscpy_s(wstr2, 100, name);
+	WCHAR_TO_CHAR(wstr2, str2);
+	memcpy_s(filename, 100, str2, sizeof(str2));
+	// 构造md5的字符串
+	fopen_s(&fpfile, filename, "rb");
+	MD5VAL md5Value = md5File(fpfile);
+	CString buffMD5;
+	buffMD5.Format(L"%d%d%d%d", md5Value.a, md5Value.b, md5Value.c, md5Value.a);
+	//MessageBox(buffMD5);
+
+	//1.初始化环境 必须调用加载socket库
+	WSADATA wdata = {};
+	WSAStartup(MAKEWORD(2, 2),	&wdata);
+	//2.创建套接字
+	SOCKET ClientSock =socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+	//3.发起连接
+	sockaddr_in Saddr = {};//服务器地址信息
+	Saddr.sin_family = AF_INET;//设置协议
+	Saddr.sin_port = htons(6666);//设置服务器的端口
+	inet_pton(AF_INET, "127.0.0.1", &Saddr.sin_addr);// 配置服务端的地址和端口
+	//发起连接
+	int conRes = connect(ClientSock, (sockaddr*)&Saddr, sizeof(Saddr));
+	if (conRes != 0)
+	{
+		MessageBox(L"服务器连接失败", L"Tips");
+		return;
+	}
+	
+	// 构造发送的数据
+	char sendBuff[100];
+	WCHAR wstr[100] = { 0 };
+	CHAR str[100] = { 0 };
+	wcscpy_s(wstr, 100, buffMD5);
+	WCHAR_TO_CHAR(wstr, str);
+	memcpy_s(sendBuff, 100, str, sizeof(str));
+
+	//发送到服务上
+	send(ClientSock, sendBuff, 100, 0);
+	char recvBuff[100] = {0};
+	recv(ClientSock, recvBuff, 100, 0);
+	//显示服务器发送回来的信息
+	CString buffer;
+	buffer.Format(L"%s", recvBuff);
+	//int rescode = _ttoi(buffer);
+	if (buffer == L"1")
+		MessageBox(L"已知病毒",L"云端响应结果");
+	else
+		MessageBox(L"正常文件", L"云端响应结果");
+	//MessageBox(buffer);
+
+	closesocket(ClientSock);//5.关闭套接字
+	WSACleanup();//6.清理环境
+
+	return;
 }
