@@ -267,12 +267,7 @@ void CProcessDlg::OnBnClickedButtonMemclean()
 
 
 #include "..\Dll4ProtectProcess\DllProtectProcess.h"
-//#include ".\res\ProtectProcess\Dll4ProtectProcess\Dll4ProtectProcess.h"
 #pragma comment (lib,".\\res\\ProtectProcess\\Dll4ProtectProcess.lib")
-
-// dll 路径
-//#define  DLL_PATH  L"C:\\Users\\ry1yn\\source\\repos\\15PB\\SecurityGuard\\res\\ProtectProcess\\Dll4ProtectProcess.dll"
-
 
 DWORD GetThreadID(DWORD ProcessId)
 {
@@ -318,66 +313,11 @@ void CProcessDlg::OnProtectproc()
 	int index = (int)m_list.GetFirstSelectedItemPosition() - 1;
 	DWORD dwId = m_procList[index].th32ProcessID;
 
-	//std::vector<THREADENTRY32> threadList;
-	//GetProcessAllThread(dwId, &threadList);
-
-	//DWORD dwTId = threadList[0].th32ThreadID;
 	DWORD dwTId  = GetThreadID(dwId);
-
-	//// 插入到列表（插入行、设置内容
-	//CString buffer;
-	//for (auto&i : threadList)
-	//{
-	//	m_list.InsertItem(index, L"");
-
-	//	buffer.Format(L"%d", index);
-	//	m_list.SetItemText(index, 0, buffer);
-	//	buffer.Format(L"%d", i.th32ThreadID);
-
-	//}
-
-
-
-
-	//// 1 打开目标进程，得到句柄
-	////DWORD dwId = 10156;//正常情况下，可通过遍历进程，根据进程名得到进程ID
-	//HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwId);
-	//// 2 在目标进程中申请一块空间，能够存放下dll文件的路径
-	//DWORD dwSize = (wcslen(DLL_PATH) + 1) * 2;
-	//LPVOID lpAddress = VirtualAllocEx(hProcess, NULL, dwSize, MEM_COMMIT, PAGE_READWRITE);
-	//// 3 将dll文件的路径写入到目标进程申请的空间中
-	//SIZE_T sSize = 0;
-	//WriteProcessMemory(hProcess, lpAddress, DLL_PATH, dwSize, &sSize);
-	//// 4 在目标进程中，创建远程线程使其能够执行LoadLibrary，参数是写入的dll路径
-	//HANDLE hThread = CreateRemoteThread(
-	//	hProcess,
-	//	NULL, NULL,
-	//	(LPTHREAD_START_ROUTINE)LoadLibraryW,
-	//	lpAddress,
-	//	NULL,
-	//	NULL
-	//);
-	//// 5 等待线程结束，释放空间
-	//WaitForSingleObject(hThread, -1);
-	//VirtualFreeEx(hProcess, lpAddress, dwSize, NULL);
-	//// 6 程序结束，关闭句柄
-	//CloseHandle(hThread);
-	//CloseHandle(hProcess);
-	
-
 
 	OnHook(dwTId);
 
-	//Sleep(10000);
-	//UnHook();
-
-
-
-
-
 }
-
-
 
 void CProcessDlg::Ondeleteprotect()
 {
