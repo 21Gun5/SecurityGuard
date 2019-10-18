@@ -77,6 +77,10 @@
 #define IDC_BUTTON_CLEANRB              1049
 #define IDC_BUTTON_MEMSTATUS            1049
 #define IDC_BUTTON_MEMCLEAN             1050
+#define IDC_BUTTON_POWEROFF             1051
+#define IDC_BUTTON_REBOOT               1052
+#define IDC_BUTTON_SLEEP                1053
+#define IDC_BUTTON_LOCK                 1054
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -101,9 +105,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        171
+#define _APS_NEXT_RESOURCE_VALUE        173
 #define _APS_NEXT_COMMAND_VALUE         32790
-#define _APS_NEXT_CONTROL_VALUE         1050
+#define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

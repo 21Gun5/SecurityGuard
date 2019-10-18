@@ -40,4 +40,9 @@ public:
 //	afx_msg void OnBnClickedButtonThread();
 	afx_msg void OnBnClickedButtonAntivirus();
 	afx_msg void OnBnClickedButtonService();
+	afx_msg void OnBnClickedButtonSystem();
+	afx_msg void OnBnClickedButtonLock();
+	afx_msg void OnBnClickedButtonSleep();
+	afx_msg void OnBnClickedButtonPoweroff();
+	afx_msg void OnBnClickedButtonReboot();
 };

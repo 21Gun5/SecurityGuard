@@ -14,6 +14,9 @@
 #include "CCleanerDlg.h"
 #include "CServiceDlg.h"
 
+#include <powrprof.h>
+#pragma comment(lib, "PowrProf.lib")
+
 
 
 #ifdef _DEBUG
@@ -81,6 +84,11 @@ BEGIN_MESSAGE_MAP(CSecurityGuardDlg, CDialogEx)
 	//	ON_BN_CLICKED(IDC_BUTTON_THREAD, &CSecurityGuardDlg::OnBnClickedButtonThread)
 	ON_BN_CLICKED(IDC_BUTTON_ANTIVIRUS, &CSecurityGuardDlg::OnBnClickedButtonAntivirus)
 	ON_BN_CLICKED(IDC_BUTTON_SERVICE, &CSecurityGuardDlg::OnBnClickedButtonService)
+	//ON_BN_CLICKED(IDC_BUTTON_SYSTEM, &CSecurityGuardDlg::OnBnClickedButtonSystem)
+	ON_BN_CLICKED(IDC_BUTTON_LOCK, &CSecurityGuardDlg::OnBnClickedButtonLock)
+	ON_BN_CLICKED(IDC_BUTTON_SLEEP, &CSecurityGuardDlg::OnBnClickedButtonSleep)
+	ON_BN_CLICKED(IDC_BUTTON_POWEROFF, &CSecurityGuardDlg::OnBnClickedButtonPoweroff)
+	ON_BN_CLICKED(IDC_BUTTON_REBOOT, &CSecurityGuardDlg::OnBnClickedButtonReboot)
 END_MESSAGE_MAP()
 
 
@@ -169,7 +177,6 @@ HCURSOR CSecurityGuardDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-
 void CSecurityGuardDlg::OnBnClickedButtonProcess()
 {
 	// TODO: 在此添加控件通知处理程序代码
@@ -180,14 +187,12 @@ void CSecurityGuardDlg::OnBnClickedButtonProcess()
 
 }
 
-
 void CSecurityGuardDlg::OnBnClickedButtonWindow()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CWindowDlg dlg;
 	dlg.DoModal();
 }
-
 
 void CSecurityGuardDlg::OnBnClickedButtonClean()
 {
@@ -203,8 +208,6 @@ void CSecurityGuardDlg::OnBnClickedButtonPE()
 	dlg.DoModal();
 }
 
-
-
 void CSecurityGuardDlg::OnBnClickedButtonAntivirus()
 {
 	// TODO: 在此添加控件通知处理程序代码
@@ -212,11 +215,37 @@ void CSecurityGuardDlg::OnBnClickedButtonAntivirus()
 	dlg.DoModal();
 }
 
-
 void CSecurityGuardDlg::OnBnClickedButtonService()
 {
 	// TODO: 在此添加控件通知处理程序代码
 
 	CServiceDlg dlg;
 	dlg.DoModal();
+}
+
+void CSecurityGuardDlg::OnBnClickedButtonLock()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	LockWorkStation();
+}
+
+void CSecurityGuardDlg::OnBnClickedButtonSleep()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//SetSuspendState(FALSE, FALSE, FALSE);
+	MessageBox(L"我睡眠了");
+}
+
+void CSecurityGuardDlg::OnBnClickedButtonPoweroff()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//ExitWindowsEx(EWX_POWEROFF | EWX_FORCE|NULL);
+	MessageBox(L"我关机了");
+}
+
+void CSecurityGuardDlg::OnBnClickedButtonReboot()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//ExitWindowsEx(EWX_REBOOT | EWX_FORCE,NULL);
+	MessageBox(L"我重启了");
 }
