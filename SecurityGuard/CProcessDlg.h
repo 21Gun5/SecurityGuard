@@ -40,4 +40,6 @@ public:
 
 	afx_msg void OnBnClickedButtonMemstatus();
 	afx_msg void OnBnClickedButtonMemclean();
+	afx_msg void OnProtectproc();
+	afx_msg void Ondeleteprotect();
 };

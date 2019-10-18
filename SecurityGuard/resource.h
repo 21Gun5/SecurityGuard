@@ -100,13 +100,17 @@
 #define ID_KillVirusProc                32787
 #define ID_32788                        32788
 #define ID_antiOnline                   32789
+#define ID_32790                        32790
+#define ID_PROTECTPROC                  32791
+#define ID_32792                        32792
+#define ID_deleteProtect                32793
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        173
-#define _APS_NEXT_COMMAND_VALUE         32790
+#define _APS_NEXT_COMMAND_VALUE         32794
 #define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
